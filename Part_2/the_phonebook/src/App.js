@@ -61,7 +61,6 @@ const App = () => {
     const nameObject = {
       name: newName,
       number: newNumber,
-      id: Math.round(Math.random() * 1000)
     }
 
     personService
@@ -74,6 +73,13 @@ const App = () => {
         setTimeout(() => {
           setAddMessage(null)
         }, 5000)
+    })
+    .catch(error => {
+      console.log(error.response.data.error)
+      setErrorMessage(error.response.data.error)
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 5000)
     })
     setNewName('')
     setNewNumber('')
