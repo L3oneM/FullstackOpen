@@ -1,9 +1,11 @@
 POST  http://localhost:3001/api/blogs
 Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlBhbm9zIiwiaWQiOiI1ZGFjNTMwZGY0YjRhMTBkMzNlZmVjYjAiLCJpYXQiOjE1NzE2MDAyOTJ9.B_fC_FPFqKXC5mpCLVwirR4XY5TEzxsNOiDzP34CzAQ
 
 {
-  "title": "A new Blog just Added",
+  "title": "Blog for testing 4.20 Again",
   "author": "Me",
   "url": "http://localhost:3001/api/blogs",
-  "likes": 59
+  "likes": 95,
+  "userId": "5dac530df4b4a10d33efecb0"
 }
