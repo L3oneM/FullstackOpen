@@ -1,34 +1,19 @@
 import React from 'react'
 
-const CreateForm = ({ handleCreate, title, author, url, setTitle, setAuthor,setUrl }) => (
+const CreateForm = ({ handleCreate, title, author, url }) => (
   <div>
     <form onSubmit={handleCreate}>
       <div>
-        title: 
-        <input
-        type="text"
-         value={title}
-        name="title"
-        onChange={({ target }) => setTitle(target.value)}
-        />
+        title:
+        <input { ...title.unitilies() } />
       </div>
       <div>
-        author: 
-        <input
-        type="text"
-         value={author}
-        name="author"
-        onChange={({ target }) => setAuthor(target.value)}
-        />
+        author:
+        <input { ...author.unitilies() } />
       </div>
       <div>
-        url: 
-        <input
-        type="text"
-         value={url}
-        name="url"
-        onChange={({ target }) => setUrl(target.value)}
-        />
+        url:
+        <input { ...url.unitilies() } />
       </div>
       <button type="submit" >create</button>
     </form>

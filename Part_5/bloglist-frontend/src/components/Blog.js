@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-const Blog = ({ blog, addLikes, removeBlog,user }) =>{
+const Blog = ({ blog, addLikes, removeBlog, user }) => {
   const [ blogVisible, setBlogVisible ] = useState(false)
 
   const showWhenVisible = { display: blogVisible ? '' : 'none' }
@@ -14,25 +14,25 @@ const Blog = ({ blog, addLikes, removeBlog,user }) =>{
   }
 
   return (
-    <div style={blogStyle}>
-      <div onClick={() => setBlogVisible(!blogVisible)}>
-        {blog.title}  by {blog.author}          
+    <div style={blogStyle} className='blog'>
+      <div onClick={() => setBlogVisible(!blogVisible)} className='testBtn'>
+        {blog.title}  by {blog.author}
       </div>
-      <div style={showWhenVisible} >
-          <div>
-            {blog.url}
-          </div>
-          <div>
-            {blog.likes} likes <button onClick={addLikes}>like</button>
-          </div>
-          <div>
+      <div style={showWhenVisible} className="togglableContent">
+        <div>
+          {blog.url}
+        </div>
+        <div>
+          {blog.likes} likes <button onClick={addLikes}>like</button>
+        </div>
+        <div>
             added by {blog.user ? blog.user.username : 'Unknown'}
+        </div>
+        {!blog.user
+          ? null
+          : (blog.user.username === user.username) ? <div>
+            <button onClick={removeBlog}>remove</button>
           </div>
-          {!blog.user 
-            ? null 
-            : (blog.user.username === user.username) ? <div>
-                <button onClick={removeBlog}>remove</button>
-              </div> 
             : null}
       </div>
     </div>
