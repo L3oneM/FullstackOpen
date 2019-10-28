@@ -5,6 +5,10 @@ import { messageChanger, removeNotification } from '../reducers/notificationRedu
 const AnecdoteList = (props) => {
   const anecdotes = props.store.getState().anecdotes.sort((a, b) => b.votes - a.votes)
 
+  console.log('my anecdotes',anecdotes)
+
+  const filter = props.store.getState().filter
+
   const vote = (id) => {
     console.log('vote', id)
     const voteContent = props.store.getState().anecdotes.find(a => a.id === id)
@@ -15,9 +19,18 @@ const AnecdoteList = (props) => {
     }, 5000) 
   }
 
+  const anecdotesToShow = () => {
+  
+    if (filter === '') {
+      return anecdotes
+    }
+    
+    return anecdotes.filter(anec => anec.content.toLowerCase().includes(filter.toLowerCase()))
+  }
+
   return(
     <div> 
-      {anecdotes.map(anecdote =>
+      {anecdotesToShow().map(anecdote =>
         <div key={anecdote.id}>
           <div>
             {anecdote.content}
