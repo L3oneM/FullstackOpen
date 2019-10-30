@@ -76,7 +76,7 @@ let CreateNew = (props) => {
       votes: 0
     })
     props.setNotification(`a new anecdote  ${content} created!!!`)
-    setTimeout(() => props.setNotification(''), 5000)
+    setTimeout(() => props.setNotification(''), 10000)
     props.history.push('/')
   }
 
