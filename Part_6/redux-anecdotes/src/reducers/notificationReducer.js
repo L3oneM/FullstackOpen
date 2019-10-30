@@ -1,8 +1,6 @@
-const initialState = 'Vote The Anecdote You Like The Most' 
+const initialState = ''
 
 const notificationReducer = (state = initialState, action) => {
-  console.log('notification state now: ', state)
-  console.log('notification action', action.message)
 
   switch (action.type) {
     case 'SET_MESSAGE':
@@ -14,12 +12,13 @@ const notificationReducer = (state = initialState, action) => {
   }
 } 
 
-export const messageChanger = message => {
+export const messageChanger = (message, time) => async dispatch => {
   const voteMessage = `You Voted "${message}"`
-  return {
+  dispatch({
     type: 'SET_MESSAGE',
     message : voteMessage
-  }
+  })
+  setTimeout(() => dispatch(removeNotification()), time * 1000)
 }
 
 export const removeNotification = () => {
