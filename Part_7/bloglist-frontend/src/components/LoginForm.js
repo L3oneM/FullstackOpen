@@ -1,17 +1,33 @@
 import React from 'react'
+import { connect } from 'react-redux'
+import { handleLogin } from '../reducers/loginReducer'
 
-const LoginForm = ({ handleLogin, username, password }) => (
-  <form onSubmit={handleLogin}>
-    <div>
+
+const LoginForm = (props) => {
+  const loginUser = async (event) => {
+    event.preventDefault()
+    const content = {
+      username: event.target.username.value,
+      password: event.target.password.value
+    }
+    props.handleLogin(content)
+  }
+
+  return (
+    <form onSubmit={loginUser}>
+      <div>
       username
-      <input { ...username.unitilies() } />
-    </div>
-    <div>
+        <input name='username' />
+      </div>
+      <div>
       password
-      <input { ...password.unitilies() } />
-    </div>
-    <button type="submit">login</button>
-  </form>
-)
-
-export default LoginForm
+        <input name="password" />
+      </div>
+      <button type="submit">login</button>
+    </form>
+  )
+}
+export default connect(
+  null,
+  { handleLogin }
+)(LoginForm)

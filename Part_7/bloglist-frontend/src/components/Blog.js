@@ -13,6 +13,16 @@ const Blog = ({ blog, addLikes, removeBlog, user }) => {
     marginBottom: 5
   }
 
+  const removeBlogOf = async () => {
+    if (window.confirm('Delete this blog?')) {
+      removeBlog()
+    }
+  }
+
+  const addLikesOf = async () => {
+    addLikes()
+  }
+
   return (
     <div style={blogStyle} className='blog'>
       <div onClick={() => setBlogVisible(!blogVisible)} className='testBtn'>
@@ -23,15 +33,15 @@ const Blog = ({ blog, addLikes, removeBlog, user }) => {
           {blog.url}
         </div>
         <div>
-          {blog.likes} likes <button onClick={addLikes}>like</button>
+          {blog.likes} likes <button onClick={addLikesOf}>like</button>
         </div>
         <div>
             added by {blog.user ? blog.user.username : 'Unknown'}
         </div>
         {!blog.user
           ? null
-          : (blog.user.username === user.username) ? <div>
-            <button onClick={removeBlog}>remove</button>
+          : (blog.user.username === user) ? <div>
+            <button onClick={removeBlogOf}>remove</button>
           </div>
             : null}
       </div>
