@@ -1,52 +1,67 @@
-import React, { useState } from 'react'
+import React from 'react'
+import { connect } from 'react-redux'
+import { addLikesOf, removeBlog } from '../reducers/blogReducer'
+import { withRouter } from 'react-router-dom'
 
-const Blog = ({ blog, addLikes, removeBlog, user }) => {
-  const [ blogVisible, setBlogVisible ] = useState(false)
-
-  const showWhenVisible = { display: blogVisible ? '' : 'none' }
-
-  const blogStyle = {
-    paddingTop: 10,
-    paddingLeft: 2,
-    border: 'solid',
-    borderWidth: 1,
-    marginBottom: 5
+let Blog = (props) => {
+  if ( props.blog === undefined) {
+    return null
   }
 
-  const removeBlogOf = async () => {
+  if ( props.user === undefined) {
+    return null
+  }
+
+  const removeBlogOf = async (id) => {
     if (window.confirm('Delete this blog?')) {
-      removeBlog()
+      props.removeBlog(id)
+      props.history.push('/')
     }
   }
 
-  const addLikesOf = async () => {
-    addLikes()
+  const addLikes = async (blog) => {
+    props.addLikesOf(blog)
   }
 
+  const blog = props.blog
+  console.log(blog.id)
+
   return (
-    <div style={blogStyle} className='blog'>
-      <div onClick={() => setBlogVisible(!blogVisible)} className='testBtn'>
-        {blog.title}  by {blog.author}
+    <div className='blog'>
+      <div className='testBtn'>
+        <h1>{blog.title}  by {blog.author}</h1>
       </div>
-      <div style={showWhenVisible} className="togglableContent">
+      <div className="togglableContent">
         <div>
           {blog.url}
         </div>
         <div>
-          {blog.likes} likes <button onClick={addLikesOf}>like</button>
+          {blog.likes} likes <button onClick={() => addLikes(blog)}>like</button>
         </div>
         <div>
             added by {blog.user ? blog.user.username : 'Unknown'}
         </div>
-        {!blog.user
-          ? null
-          : (blog.user.username === user) ? <div>
-            <button onClick={removeBlogOf}>remove</button>
-          </div>
-            : null}
+        <div>
+          <button onClick={() => removeBlogOf(blog.id)}>remove</button>
+        </div>
       </div>
     </div>
   )
 }
 
-export default Blog
+Blog = withRouter(Blog)
+
+const mapStateToProps = (state, ownProps) => ({
+  blog: ownProps.blog,
+  user: state.user
+})
+
+const mapDispatchToProps = {
+  addLikesOf,
+  removeBlog
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Blog)

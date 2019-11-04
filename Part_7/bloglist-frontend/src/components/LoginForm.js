@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { handleLogin } from '../reducers/loginReducer'
+import { messageChanger, removeNotification } from '../reducers/notificationReducer'
 
 
 const LoginForm = (props) => {
@@ -11,6 +12,7 @@ const LoginForm = (props) => {
       password: event.target.password.value
     }
     props.handleLogin(content)
+    props.messageChanger(`User ${content.username} has logged in`, 10)
   }
 
   return (
@@ -27,7 +29,14 @@ const LoginForm = (props) => {
     </form>
   )
 }
+
+const mapDispatchToProps = {
+  handleLogin,
+  messageChanger,
+  removeNotification
+}
+
 export default connect(
   null,
-  { handleLogin }
+  mapDispatchToProps
 )(LoginForm)

@@ -6,7 +6,6 @@ const loginReducer = (state=null, action) => {
   case 'LOG_IN':
     return action.data
   case 'LOG_OUT':
-    console.log('LoGout 2')
     return action.data
   case 'INIT_USER':
     console.log('init',action.data)
@@ -18,6 +17,7 @@ const loginReducer = (state=null, action) => {
 
 export const logOut = () => {
   return async dispatch => {
+    window.localStorage.removeItem('loggedBloglistUser')
     dispatch({
       type: 'LOG_OUT',
       data: null
