@@ -25,8 +25,6 @@ blogRouter.get('/:id', async (request, response, next) => {
 blogRouter.post('/', async (request, response, next) => {
   const body = request.body
 
-  console.log('"body"', body)
-
   try {
 
     // eslint-disable-next-line no-undef
@@ -90,6 +88,27 @@ blogRouter.put('/:id', async (request, response, next) => {
   try {
     const updatedBlog = await Blog.findByIdAndUpdate(request.params.id, body, { new: true })
     response.json(updatedBlog)
+  } catch(exception) {
+    next(exception)
+  }
+})
+
+blogRouter.post('/:id/comments', async (request, response, next) => {
+  const body = request.body
+  console.log('body',body)
+
+  const blogId = request.params.id
+
+  console.log(blogId)
+
+  try {
+    const blog = await Blog.findById(blogId)
+
+    blog.comments = blog.comments.concat(body.comment)
+
+    const savedBlog = await blog.save()
+    response.status(201).json(savedBlog.toJSON())
+
   } catch(exception) {
     next(exception)
   }

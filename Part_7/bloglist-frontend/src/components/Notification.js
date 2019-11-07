@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { Message } from 'semantic-ui-react'
 
 const Notification = (props) => {
   if (props.message === null) {
@@ -7,9 +8,9 @@ const Notification = (props) => {
   }
 
   return (
-    <div className="error">
+    <Message success>
       {props.message}
-    </div>
+    </Message>
   )
 }
 

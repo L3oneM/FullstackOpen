@@ -17,6 +17,8 @@ import { initializeBlogs } from './reducers/blogReducer'
 import { initializeUser } from './reducers/loginReducer'
 import { initializeUsers } from './reducers/usersReducer'
 
+import { Container } from 'semantic-ui-react'
+
 const App = (props) => {
 
   const hook = () => {
@@ -40,31 +42,33 @@ const App = (props) => {
     b.id === id)
 
   return (
-    <div>
-      <Router>
-        <div>
-          <Notification  />
-          <NavBar />
-          <Route exact path='/' render={() =>
-            props.user === null ?
-              <div>
-                <h2>log in to application</h2>
-                <LoginForm />
-              </div>
-              : <div>
-                <Blogs />
-                <Users />
-              </div>
-          } />
-          <Route exact path='/users/:id' render={({ match }) => <User user={findUser(match.params.id)} />} />
-        </div>
-        <Route exact path='/blogs/:id' render={({ match }) =>
+    <Container>
+      <div>
+        <Router>
           <div>
-            <Blogs />
-            <Blog blog={findBlog(match.params.id)}/>
-          </div>} />
-      </Router>
-    </div>
+            <Notification  />
+            <NavBar />
+            <Route exact path='/' render={() =>
+              props.user === null ?
+                <div>
+                  <h2>log in to application</h2>
+                  <LoginForm />
+                </div>
+                : <div>
+                  <Blogs />
+                  <Users />
+                </div>
+            } />
+            <Route exact path='/users/:id' render={({ match }) => <User user={findUser(match.params.id)} />} />
+          </div>
+          <Route exact path='/blogs/:id' render={({ match }) =>
+            <div>
+              <Blogs />
+              <Blog blog={findBlog(match.params.id)}/>
+            </div>} />
+        </Router>
+      </div>
+    </Container>
   )
 }
 

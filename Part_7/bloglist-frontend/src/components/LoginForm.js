@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { handleLogin } from '../reducers/loginReducer'
 import { messageChanger, removeNotification } from '../reducers/notificationReducer'
+import { Form, Button } from 'semantic-ui-react'
 
 
 const LoginForm = (props) => {
@@ -16,17 +17,17 @@ const LoginForm = (props) => {
   }
 
   return (
-    <form onSubmit={loginUser}>
-      <div>
-      username
-        <input name='username' />
-      </div>
-      <div>
-      password
-        <input name="password" />
-      </div>
-      <button type="submit">login</button>
-    </form>
+    <Form onSubmit={loginUser}>
+      <Form.Field>
+        <label>username</label>
+        <Form.Input name='username' width={6}/>
+      </Form.Field>
+      <Form.Field>
+        <label>password</label>
+        <Form.Input name="password" width={6}/>
+      </Form.Field>
+      <Button type="submit">login</Button>
+    </Form>
   )
 }
 

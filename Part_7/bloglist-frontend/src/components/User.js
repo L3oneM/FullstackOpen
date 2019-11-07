@@ -1,29 +1,23 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
+import { List } from 'semantic-ui-react'
 
 const User = (props) => {
   if ( props.user === undefined) {
     return null
   }
 
-  const blogStyle = {
-    paddingTop: 10,
-    paddingLeft: 2,
-    border: 'solid',
-    borderWidth: 1,
-    marginBottom: 5,
-    listStyle: 'none'
-  }
-
   const displayBlogs = () =>
-    <ul> {props.user.blogs.map( blog =>
-      <li key={blog.id} style={blogStyle}>
-        <Link to={`/blogs/${blog.id}`} >
-          {blog.title}
-        </Link>
-      </li>)}
-    </ul>
+    <List celled size={'big'}> {props.user.blogs.map( blog =>
+      <List.Item key={blog.id} >
+        <List.Content>
+          <Link to={`/blogs/${blog.id}`} >
+            {blog.title}
+          </Link>
+        </List.Content>
+      </List.Item>)}
+    </List>
 
   console.log(props.user)
   return (
