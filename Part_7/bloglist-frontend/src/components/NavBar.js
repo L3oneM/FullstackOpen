@@ -27,7 +27,7 @@ let Navbar = (props) => {
         <Link to='/users' style={padding}>users</Link>
       </Menu.Item>
       <Menu.Item>
-        {/* {props.user.username} is logged in */}
+        {props.user.username} is logged in
       </Menu.Item>
       <Menu.Menu position='right'>
         <Menu.Item >
