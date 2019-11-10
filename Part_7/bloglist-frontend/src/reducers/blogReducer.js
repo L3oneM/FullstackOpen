@@ -1,6 +1,7 @@
 import blogService from '../services/blogs'
 
 export const initializeBlogs = () => {
+  console.log('I run!!!')
   return async dispatch => {
     const blogs = await blogService.getAll()
     dispatch({
@@ -17,6 +18,7 @@ export const handleCreate = (content) => {
       type: 'NEW_BLOG',
       data: newBlog,
     })
+    initializeBlogs()
   }
 }
 
@@ -46,6 +48,8 @@ export const removeBlog = id => {
       type: 'DELETE_BLOG',
       id
     })
+
+    initializeBlogs()
   }
 }
 
