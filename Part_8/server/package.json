@@ -1,0 +1,21 @@
+{
+  "name": "part_8",
+  "version": "1.0.0",
+  "description": "Part 8 Exercises",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "watch": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Apo Matios",
+  "license": "MIT",
+  "dependencies": {
+    "apollo-server": "^2.6.4",
+    "graphql": "^14.3.1",
+    "uuid": "^3.3.3"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.4"
+  }
+}
