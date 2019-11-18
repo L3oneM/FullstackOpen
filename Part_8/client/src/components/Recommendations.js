@@ -1,36 +1,26 @@
-import React, { useState } from 'react'
+import React from 'react'
 
-const Books = (props) => {
-  const [filter, setFilter] = useState(null)
+const Recommendations = (props) => {
 
   if (!props.show) {
     return null
   }
 
-  if (props.result.loading) {
-    return <div>loading...</div>
-  }
-
+  const filter = props.me.data.me.favoriteGenre
   const books = props.result.data.allBooks
-  
-  let filterGenres = []
-
-  books.forEach(book => {
-    book.genres.forEach(genre => {
-      if (!filterGenres.includes(genre)) {
-        filterGenres = filterGenres.concat(genre)
-      }
-    })
-  }); 
 
   return (
     <div>
+      <h2>Recommendations</h2>
+      <div>books in your favorite genre <strong>{filter}</strong> </div>
+      <div>
       <h2>books</h2>
-      {filter ? <div> in genre {filter}</div> : null}
       <table>
         <tbody>
           <tr>
-            <th></th>
+            <th>
+              title
+            </th>
             <th>
               author
             </th>
@@ -47,11 +37,9 @@ const Books = (props) => {
           )}
         </tbody>
       </table>
-      <div>
-        {filterGenres.map(g => <button key={g} onClick={() => setFilter(`${g}`)} >{g}</button> )}
       </div>
     </div>
   )
 }
 
-export default Books
+export default Recommendations
