@@ -6,6 +6,10 @@ const Recommendations = (props) => {
     return null
   }
 
+  if (props.me.loading) {
+    return <div>loading...</div>
+  }
+
   const filter = props.me.data.me.favoriteGenre
   const books = props.result.data.allBooks
 

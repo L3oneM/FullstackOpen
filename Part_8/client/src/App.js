@@ -5,7 +5,7 @@ import NewBook from './components/NewBook'
 import BirthDate from './components/BirthDate'
 import LoginForm from './components/LoginForm'
 import Recommendations from './components/Recommendations'
-import { useMutation, useQuery, useApolloClient } from '@apollo/react-hooks'
+import { useMutation, useQuery, useApolloClient, useSubscription } from '@apollo/react-hooks'
 import { gql } from 'apollo-boost'
 
 const ALL_AUTHORS = gql`
@@ -15,6 +15,11 @@ const ALL_AUTHORS = gql`
     born
     bookCount
   }
+}
+`
+
+const ALL_BOOKS = gql`
+{
   allBooks { 
     title 
     author {
@@ -46,10 +51,26 @@ const CREATE_BOOK = gql`
     title,
     author {
       name
+      born
     }
   }
  }
 `
+
+const BOOK_ADDED = gql`
+  subscription {
+    bookAdded {
+      title
+      author {
+        name
+        born
+      }
+      published
+      genres
+    }
+  }
+`
+
 
 const CHANGE_BIRTHDATE = gql`
  mutation changeBirthDate($name: String!, $born: Int!) {
@@ -77,11 +98,44 @@ const App = () => {
   const [page, setPage] = useState('authors')
   const [token, setToken] = useState(null)
 
-  const authorsAndBooks = useQuery(ALL_AUTHORS)
+  const authors = useQuery(ALL_AUTHORS)
+  const books = useQuery(ALL_BOOKS)
   const me = useQuery(ME)
 
+  const updateCacheWith = (addedBook) => {
+    const includedIn = (set, object) => {
+      console.log(object, addedBook)
+      set.map(b => b.id).includes(object.id)
+    }        
+
+    const dataInStore = client.readQuery({ query: ALL_BOOKS })
+    
+    console.log('data',dataInStore)
+
+    if (!includedIn(dataInStore.allBooks, addedBook)) {
+      dataInStore.allBooks.push(addedBook)
+      console.log('data2',dataInStore)
+      client.writeQuery({
+        query: ALL_BOOKS,
+        data: dataInStore
+      })
+    }  
+    console.log('data3',dataInStore) 
+  }
+
+  useSubscription(BOOK_ADDED, {
+    onSubscriptionData: ({ subscriptionData }) => {
+      alert(`New Book Added with Title ${subscriptionData.data.bookAdded.title}`)
+      const addedBook = subscriptionData.data.bookAdded
+      updateCacheWith(addedBook)
+    }
+  })
+
   const [addBook] = useMutation(CREATE_BOOK, {
-    refetchQueries: [{ query: ALL_AUTHORS }]
+    refetchQueries: [
+      { query: ALL_BOOKS },
+      { query: ALL_AUTHORS },
+    ]
   })
 
   const [editAuthor] = useMutation(CHANGE_BIRTHDATE, {
@@ -114,7 +168,7 @@ const App = () => {
     localStorage.clear()
     client.resetStore()
   }
-
+  
   return (
     <div>
         <div>
@@ -128,18 +182,18 @@ const App = () => {
 
           <Authors
               show={page === 'authors'}
-              result={authorsAndBooks}
+              result={authors}
             />
 
           <Books
               show={page === 'books'}
-              result={authorsAndBooks}
+              result={books}
           />
 
           <Recommendations 
             show={page === 'recommendations'}
             me={me}
-            result={authorsAndBooks}
+            result={books}
           />
         </div>
         <NewBook
@@ -149,7 +203,7 @@ const App = () => {
         <BirthDate
           show={page === 'authors'}
           editAuthor={editAuthor}
-          result={authorsAndBooks}
+          result={authors}
         />
     </div>
   )
